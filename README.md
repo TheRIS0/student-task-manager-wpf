@@ -8,7 +8,7 @@ Student Task Manager lets users create, edit, delete, and track tasks with title
 
 ## Key Features
 
-- **Task CRUD** — Add, edit, and delete tasks via a modal dialog
+- **Task CRUD** — Add and edit tasks via a modal dialog; delete tasks directly from the main list
 - **Completion toggle** — Mark tasks complete or active from the main list
 - **Filtering** — View All tasks, Active (incomplete), or Completed tasks
 - **Persistence** — SQLite database with Entity Framework Core; database and tables are created on startup
