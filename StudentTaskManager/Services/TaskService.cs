@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using StudentTaskManager.Data;
 using StudentTaskManager.Models;
 
@@ -15,7 +16,7 @@ public class TaskService
     public List<TaskItem> GetAll()
     {
         using var context = new AppDbContext();
-        return context.Tasks.ToList();
+        return context.Tasks.AsNoTracking().ToList();
     }
 
     /// <summary>
