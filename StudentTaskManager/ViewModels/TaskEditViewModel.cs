@@ -12,7 +12,6 @@ public class TaskEditViewModel : ViewModelBase
     private string _description = string.Empty;
     private DateTime? _dueDate;
     private bool _isCompleted;
-    private DateTime _createdAt;
 
     public TaskEditViewModel(TaskItem? existing)
     {
@@ -23,18 +22,13 @@ public class TaskEditViewModel : ViewModelBase
             _description = existing.Description;
             _dueDate = existing.DueDate;
             _isCompleted = existing.IsCompleted;
-            _createdAt = existing.CreatedAt;
         }
     }
 
     /// <summary>
     /// Task Id. Zero for a new task.
     /// </summary>
-    public int Id
-    {
-        get => _id;
-        set => SetProperty(ref _id, value);
-    }
+    public int Id => _id;
 
     public string Title
     {
@@ -72,8 +66,7 @@ public class TaskEditViewModel : ViewModelBase
             Title = title,
             Description = _description,
             DueDate = _dueDate,
-            IsCompleted = _isCompleted,
-            CreatedAt = _createdAt
+            IsCompleted = _isCompleted
         };
     }
 }
