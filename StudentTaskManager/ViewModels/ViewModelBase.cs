@@ -14,4 +14,17 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName ?? string.Empty));
     }
+
+    /// <summary>
+    /// Sets the backing field and raises PropertyChanged if the value changed.
+    /// Use this in property setters to keep view models consistent.
+    /// </summary>
+    protected bool SetProperty<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value))
+            return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
 }
