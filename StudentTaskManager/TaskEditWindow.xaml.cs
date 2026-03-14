@@ -1,4 +1,5 @@
 using System.Windows;
+using StudentTaskManager.ViewModels;
 
 namespace StudentTaskManager;
 
@@ -14,6 +15,15 @@ public partial class TaskEditWindow : Window
 
     private void OkButton_Click(object sender, RoutedEventArgs e)
     {
+        if (DataContext is not TaskEditViewModel viewModel)
+            return;
+
+        if (string.IsNullOrWhiteSpace(viewModel.Title))
+        {
+            MessageBox.Show("Please enter a title.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
         DialogResult = true;
     }
 }
