@@ -27,6 +27,12 @@
             <Setter Property="BorderBrush" Value="#CCCCCC" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Cursor" Value="Hand" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Cursor" Value="Arrow" />
+                    <Setter Property="Opacity" Value="0.65" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
         <Style TargetType="ComboBox">
             <Setter Property="MinWidth" Value="110" />
@@ -57,13 +63,16 @@
                            Text="Tasks"
                            Style="{StaticResource HeaderTitle}"
                            Margin="0,0,16,0" />
-                <TextBlock Grid.Column="1"
-                           Text="Filter"
-                           Style="{StaticResource SectionLabel}"
-                           VerticalAlignment="Center"
-                           Margin="0,0,6,0"
-                           HorizontalAlignment="Right" />
-                <ComboBox Grid.Column="2"
+                <Label Grid.Column="1"
+                       Content="Filter"
+                       Target="{Binding ElementName=FilterComboBox}"
+                       FontSize="12"
+                       Foreground="#666666"
+                       VerticalAlignment="Center"
+                       Margin="0,0,6,0"
+                       HorizontalAlignment="Right" />
+                <ComboBox x:Name="FilterComboBox"
+                          Grid.Column="2"
                           ItemsSource="{Binding FilterOptions}"
                           SelectedIndex="{Binding SelectedFilterIndex, Mode=TwoWay}" />
             </Grid>
