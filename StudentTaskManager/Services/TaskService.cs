@@ -39,6 +39,7 @@ public class TaskService
 
     /// <summary>
     /// Updates an existing task. Loads the task by Id and updates Title, Description, IsCompleted, and DueDate. CreatedAt is left unchanged.
+    /// Does nothing if no task with the given Id is found.
     /// </summary>
     public void Update(TaskItem task)
     {
