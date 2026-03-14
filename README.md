@@ -6,6 +6,16 @@ A desktop task manager application built with WPF and C#, following a simple MVV
 
 Student Task Manager lets users create, edit, delete, and track tasks with title, description, optional due date, and completion status. The UI supports filtering by All, Active, or Completed tasks. Data is stored in a local SQLite database file created automatically on first run.
 
+## Application Screenshots
+
+### Main window
+
+![Main window](assets/screenshots/main-window.png)
+
+### Task edit dialog
+
+![Task edit dialog](assets/screenshots/task-edit-dialog.png)
+
 ## Key Features
 
 - **Task CRUD** — Add and edit tasks via a modal dialog; delete tasks directly from the main list
