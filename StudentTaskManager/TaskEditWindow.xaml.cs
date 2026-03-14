@@ -16,7 +16,7 @@ public partial class TaskEditWindow : Window
     private void OkButton_Click(object sender, RoutedEventArgs e)
     {
         if (DataContext is not TaskEditViewModel viewModel)
-            return;
+            throw new InvalidOperationException("TaskEditWindow DataContext must be a TaskEditViewModel.");
 
         if (string.IsNullOrWhiteSpace(viewModel.Title))
         {
