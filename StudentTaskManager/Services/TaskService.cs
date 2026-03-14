@@ -1,4 +1,3 @@
-using Microsoft.EntityFrameworkCore;
 using StudentTaskManager.Data;
 using StudentTaskManager.Models;
 
@@ -21,9 +20,14 @@ public class TaskService
 
     /// <summary>
     /// Adds a new task. Sets CreatedAt to UTC now if not already set, then saves.
+    /// The task must have Id equal to 0 (new entity).
     /// </summary>
     public void Add(TaskItem task)
     {
+        ArgumentNullException.ThrowIfNull(task);
+        if (task.Id != 0)
+            throw new ArgumentException("New task must have Id equal to 0.", nameof(task));
+
         if (task.CreatedAt == default)
             task.CreatedAt = DateTime.UtcNow;
 
@@ -33,12 +37,23 @@ public class TaskService
     }
 
     /// <summary>
-    /// Updates an existing task. The task must have a valid Id.
+    /// Updates an existing task. Loads the task by Id and updates Title, Description, IsCompleted, and DueDate. CreatedAt is left unchanged.
     /// </summary>
     public void Update(TaskItem task)
     {
+        ArgumentNullException.ThrowIfNull(task);
+        if (task.Id <= 0)
+            throw new ArgumentException("Task must have an Id greater than 0.", nameof(task));
+
         using var context = new AppDbContext();
-        context.Tasks.Update(task);
+        var existing = context.Tasks.Find(task.Id);
+        if (existing == null)
+            return;
+
+        existing.Title = task.Title;
+        existing.Description = task.Description;
+        existing.IsCompleted = task.IsCompleted;
+        existing.DueDate = task.DueDate;
         context.SaveChanges();
     }
 
