@@ -64,6 +64,9 @@ public class TaskService
     /// </summary>
     public void Delete(int id)
     {
+        if (id <= 0)
+            throw new ArgumentException("Id must be greater than 0.", nameof(id));
+
         using var context = new AppDbContext();
         var task = context.Tasks.Find(id);
         if (task != null)
@@ -79,6 +82,9 @@ public class TaskService
     /// </summary>
     public void ToggleCompletion(int id)
     {
+        if (id <= 0)
+            throw new ArgumentException("Id must be greater than 0.", nameof(id));
+
         using var context = new AppDbContext();
         var task = context.Tasks.Find(id);
         if (task != null)
