@@ -111,6 +111,7 @@
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding Title}"
+                                       ToolTip="{Binding Title}"
                                        FontSize="13"
                                        TextWrapping="NoWrap"
                                        TextTrimming="CharacterEllipsis">
