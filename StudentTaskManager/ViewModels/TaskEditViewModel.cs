@@ -59,11 +59,10 @@ public class TaskEditViewModel : ViewModelBase
     /// </summary>
     public TaskItem GetTask()
     {
-        string title = string.IsNullOrWhiteSpace(_title) ? "New task" : _title;
         return new TaskItem
         {
             Id = _id,
-            Title = title,
+            Title = _title,
             Description = _description,
             DueDate = _dueDate,
             IsCompleted = _isCompleted

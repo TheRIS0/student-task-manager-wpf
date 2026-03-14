@@ -13,10 +13,17 @@ public class MainViewModel : ViewModelBase
 {
     private readonly TaskService _taskService = new();
     private ObservableCollection<TaskItem> _tasks = new();
+    private ObservableCollection<TaskItem> _filteredTasks = new();
+    private int _selectedFilterIndex;
     private TaskItem? _selectedTask;
     private string _welcomeMessage = "Welcome to Student Task Manager";
 
     private Func<TaskItem?, TaskItem?>? _showTaskEditDialog;
+
+    /// <summary>
+    /// Filter options for the task list: All, Active, Completed.
+    /// </summary>
+    public string[] FilterOptions { get; } = new[] { "All", "Active", "Completed" };
 
     /// <summary>
     /// Set by the view to show the task edit dialog. Pass null for new task, or existing task to edit. Returns the task to save or null if cancelled.
@@ -43,12 +50,34 @@ public class MainViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// All tasks from the database. Bound to the task list in the view.
+    /// All tasks from the database.
     /// </summary>
     public ObservableCollection<TaskItem> Tasks
     {
         get => _tasks;
         set => SetProperty(ref _tasks, value);
+    }
+
+    /// <summary>
+    /// Tasks visible in the list based on the current filter (All, Active, or Completed).
+    /// </summary>
+    public ObservableCollection<TaskItem> FilteredTasks
+    {
+        get => _filteredTasks;
+        set => SetProperty(ref _filteredTasks, value);
+    }
+
+    /// <summary>
+    /// Selected filter index: 0 = All, 1 = Active, 2 = Completed.
+    /// </summary>
+    public int SelectedFilterIndex
+    {
+        get => _selectedFilterIndex;
+        set
+        {
+            if (SetProperty(ref _selectedFilterIndex, value))
+                RefreshFilteredTasks();
+        }
     }
 
     /// <summary>
@@ -83,6 +112,18 @@ public class MainViewModel : ViewModelBase
     {
         var list = _taskService.GetAll();
         Tasks = new ObservableCollection<TaskItem>(list);
+        RefreshFilteredTasks();
+    }
+
+    private void RefreshFilteredTasks()
+    {
+        var filtered = _selectedFilterIndex switch
+        {
+            1 => Tasks.Where(t => !t.IsCompleted).ToList(),
+            2 => Tasks.Where(t => t.IsCompleted).ToList(),
+            _ => Tasks.ToList()
+        };
+        FilteredTasks = new ObservableCollection<TaskItem>(filtered);
     }
 
     private void EnsureShowTaskEditDialogConfigured()

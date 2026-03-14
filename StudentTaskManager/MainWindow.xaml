@@ -14,14 +14,20 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Text="Tasks"
-                   FontSize="14"
-                   FontWeight="SemiBold"
-                   Margin="0,0,0,8" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
+            <TextBlock Text="Tasks"
+                       FontSize="14"
+                       FontWeight="SemiBold"
+                       VerticalAlignment="Center"
+                       Margin="0,0,12,0" />
+            <ComboBox ItemsSource="{Binding FilterOptions}"
+                      SelectedIndex="{Binding SelectedFilterIndex, Mode=TwoWay}"
+                      MinWidth="100"
+                      VerticalAlignment="Center" />
+        </StackPanel>
 
         <ListBox Grid.Row="1"
-                 ItemsSource="{Binding Tasks}"
+                 ItemsSource="{Binding FilteredTasks}"
                  SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
                  Margin="0,0,0,12"
                  MinHeight="120">
