@@ -8,7 +8,7 @@ namespace StudentTaskManager.ViewModels;
 public class TaskEditViewModel : ViewModelBase
 {
     private int _id;
-    private string _title = string.Empty;
+    private string _title = "New task";
     private string _description = string.Empty;
     private DateTime? _dueDate;
     private bool _isCompleted;
@@ -65,10 +65,11 @@ public class TaskEditViewModel : ViewModelBase
     /// </summary>
     public TaskItem GetTask()
     {
+        string title = string.IsNullOrWhiteSpace(_title) ? "New task" : _title;
         return new TaskItem
         {
             Id = _id,
-            Title = _title,
+            Title = title,
             Description = _description,
             DueDate = _dueDate,
             IsCompleted = _isCompleted,

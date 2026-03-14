@@ -75,9 +75,16 @@ public class MainViewModel : ViewModelBase
         Tasks = new ObservableCollection<TaskItem>(list);
     }
 
+    private void EnsureShowTaskEditDialogConfigured()
+    {
+        if (ShowTaskEditDialog == null)
+            throw new InvalidOperationException("ShowTaskEditDialog must be set by the view before using Add or Edit.");
+    }
+
     private void AddTask()
     {
-        var task = ShowTaskEditDialog?.Invoke(null);
+        EnsureShowTaskEditDialogConfigured();
+        var task = ShowTaskEditDialog!.Invoke(null);
         if (task != null)
         {
             _taskService.Add(task);
@@ -88,7 +95,8 @@ public class MainViewModel : ViewModelBase
     private void EditTask()
     {
         if (SelectedTask == null) return;
-        var task = ShowTaskEditDialog?.Invoke(SelectedTask);
+        EnsureShowTaskEditDialogConfigured();
+        var task = ShowTaskEditDialog!.Invoke(SelectedTask);
         if (task != null)
         {
             _taskService.Update(task);
