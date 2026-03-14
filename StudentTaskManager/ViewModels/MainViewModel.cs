@@ -16,6 +16,11 @@ public class MainViewModel : ViewModelBase
     private TaskItem? _selectedTask;
     private string _welcomeMessage = "Welcome to Student Task Manager";
 
+    /// <summary>
+    /// Set by the view to show the task edit dialog. Pass null for new task, or existing task to edit. Returns the task to save or null if cancelled.
+    /// </summary>
+    public Func<TaskItem?, TaskItem?>? ShowTaskEditDialog { get; set; }
+
     public MainViewModel()
     {
         LoadTasksCommand = new RelayCommand(LoadTasks);
@@ -72,22 +77,23 @@ public class MainViewModel : ViewModelBase
 
     private void AddTask()
     {
-        var task = new TaskItem
+        var task = ShowTaskEditDialog?.Invoke(null);
+        if (task != null)
         {
-            Title = "New task",
-            Description = string.Empty,
-            IsCompleted = false,
-            DueDate = null
-        };
-        _taskService.Add(task);
-        LoadTasks();
+            _taskService.Add(task);
+            LoadTasks();
+        }
     }
 
     private void EditTask()
     {
         if (SelectedTask == null) return;
-        _taskService.Update(SelectedTask);
-        LoadTasks();
+        var task = ShowTaskEditDialog?.Invoke(SelectedTask);
+        if (task != null)
+        {
+            _taskService.Update(task);
+            LoadTasks();
+        }
     }
 
     private void DeleteTask()

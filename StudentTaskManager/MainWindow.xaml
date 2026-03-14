@@ -50,6 +50,11 @@
                     Padding="12,6"
                     Margin="0,0,8,0"
                     MinWidth="70" />
+            <Button Content="Edit"
+                    Command="{Binding EditTaskCommand}"
+                    Padding="12,6"
+                    Margin="0,0,8,0"
+                    MinWidth="70" />
             <Button Content="Delete"
                     Command="{Binding DeleteTaskCommand}"
                     Padding="12,6"
