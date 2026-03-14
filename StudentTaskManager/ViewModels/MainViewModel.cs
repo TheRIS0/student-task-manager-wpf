@@ -16,11 +16,26 @@ public class MainViewModel : ViewModelBase
     private TaskItem? _selectedTask;
     private string _welcomeMessage = "Welcome to Student Task Manager";
 
+    private Func<TaskItem?, TaskItem?>? _showTaskEditDialog;
+
+    /// <summary>
+    /// Set by the view to show the task edit dialog. Pass null for new task, or existing task to edit. Returns the task to save or null if cancelled.
+    /// </summary>
+    public Func<TaskItem?, TaskItem?>? ShowTaskEditDialog
+    {
+        get => _showTaskEditDialog;
+        set
+        {
+            if (SetProperty(ref _showTaskEditDialog, value))
+                CommandManager.InvalidateRequerySuggested();
+        }
+    }
+
     public MainViewModel()
     {
         LoadTasksCommand = new RelayCommand(LoadTasks);
-        AddTaskCommand = new RelayCommand(AddTask);
-        EditTaskCommand = new RelayCommand(EditTask, () => SelectedTask != null);
+        AddTaskCommand = new RelayCommand(AddTask, () => ShowTaskEditDialog != null);
+        EditTaskCommand = new RelayCommand(EditTask, () => SelectedTask != null && ShowTaskEditDialog != null);
         DeleteTaskCommand = new RelayCommand(DeleteTask, () => SelectedTask != null);
         ToggleCompletionCommand = new RelayCommand(ToggleCompletion, () => SelectedTask != null);
 
@@ -70,24 +85,33 @@ public class MainViewModel : ViewModelBase
         Tasks = new ObservableCollection<TaskItem>(list);
     }
 
+    private void EnsureShowTaskEditDialogConfigured()
+    {
+        if (ShowTaskEditDialog == null)
+            throw new InvalidOperationException("ShowTaskEditDialog must be set by the view before using Add or Edit.");
+    }
+
     private void AddTask()
     {
-        var task = new TaskItem
+        EnsureShowTaskEditDialogConfigured();
+        var task = ShowTaskEditDialog!.Invoke(null);
+        if (task != null)
         {
-            Title = "New task",
-            Description = string.Empty,
-            IsCompleted = false,
-            DueDate = null
-        };
-        _taskService.Add(task);
-        LoadTasks();
+            _taskService.Add(task);
+            LoadTasks();
+        }
     }
 
     private void EditTask()
     {
         if (SelectedTask == null) return;
-        _taskService.Update(SelectedTask);
-        LoadTasks();
+        EnsureShowTaskEditDialogConfigured();
+        var task = ShowTaskEditDialog!.Invoke(SelectedTask);
+        if (task != null)
+        {
+            _taskService.Update(task);
+            LoadTasks();
+        }
     }
 
     private void DeleteTask()

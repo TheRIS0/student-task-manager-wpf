@@ -11,6 +11,17 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
-        DataContext = new MainViewModel();
+        var viewModel = new MainViewModel();
+        viewModel.ShowTaskEditDialog = (existing) =>
+        {
+            var editViewModel = new TaskEditViewModel(existing);
+            var window = new TaskEditWindow
+            {
+                Owner = this,
+                DataContext = editViewModel
+            };
+            return window.ShowDialog() == true ? editViewModel.GetTask() : null;
+        };
+        DataContext = viewModel;
     }
 }
