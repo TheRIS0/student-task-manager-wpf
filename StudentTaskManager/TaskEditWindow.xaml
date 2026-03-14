@@ -37,8 +37,7 @@
         <TextBlock Grid.Row="4" Text="Due date (optional)" Margin="0,0,0,4" />
         <DatePicker Grid.Row="5"
                     SelectedDate="{Binding DueDate}"
-                    Margin="0,0,0,12"
-                    Padding="4,4" />
+                    Margin="0,0,0,12" />
 
         <CheckBox Grid.Row="6"
                   Content="Completed"
