@@ -50,7 +50,7 @@
                     Padding="12,6"
                     Margin="0,0,8,0"
                     MinWidth="70" />
-            <Button Content="Mark as completed"
+            <Button Content="Toggle completion"
                     Command="{Binding ToggleCompletionCommand}"
                     Padding="12,6"
                     MinWidth="120" />
