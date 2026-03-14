@@ -120,7 +120,7 @@
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsCompleted}" Value="True">
                                                 <Setter Property="TextDecorations" Value="Strikethrough" />
-                                                <Setter Property="Foreground" Value="#888888" />
+                                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
