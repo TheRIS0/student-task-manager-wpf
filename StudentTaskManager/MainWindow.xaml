@@ -23,20 +23,30 @@
         <ListBox Grid.Row="1"
                  ItemsSource="{Binding Tasks}"
                  SelectedItem="{Binding SelectedTask, Mode=TwoWay}"
-                 DisplayMemberPath="Title"
                  Margin="0,0,0,12"
-                 MinHeight="120" />
+                 MinHeight="120">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Title}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                        <Setter Property="TextDecorations" Value="Strikethrough" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
         <StackPanel Grid.Row="2"
                     Orientation="Horizontal"
                     HorizontalAlignment="Left">
             <Button Content="Add"
                     Command="{Binding AddTaskCommand}"
-                    Padding="12,6"
-                    Margin="0,0,8,0"
-                    MinWidth="70" />
-            <Button Content="Edit"
-                    Command="{Binding EditTaskCommand}"
                     Padding="12,6"
                     Margin="0,0,8,0"
                     MinWidth="70" />
