@@ -26,8 +26,8 @@ public class MainViewModel : ViewModelBase
         get => _showTaskEditDialog;
         set
         {
-            _showTaskEditDialog = value;
-            CommandManager.InvalidateRequerySuggested();
+            if (SetProperty(ref _showTaskEditDialog, value))
+                CommandManager.InvalidateRequerySuggested();
         }
     }
 
