@@ -31,7 +31,7 @@ Student Task Manager lets users create, edit, delete, and track tasks with title
 - **Commands** — `RelayCommand` for button actions; no dependency injection
 - **Data** — `AppDbContext` with `DbSet<TaskItem>`; connection string points to a local `.db` file
 - **Services** — `TaskService` (CRUD and toggle completion), `DatabaseInitializer` (ensures database exists on startup)
-- **Flow** — Main window sets a `ShowTaskEditDialog` delegate on `MainViewModel` so add/edit open the task edit window; validation and persistence stay in the view model and service layer
+- **Flow** — Main window sets a `ShowTaskEditDialog` delegate on `MainViewModel` so add/edit open the task edit window; basic title validation is handled in the task edit window code-behind, while persistence stays in the service layer
 
 ## Setup
 
@@ -44,9 +44,9 @@ Student Task Manager lets users create, edit, delete, and track tasks with title
 
 ```bash
 git clone <repository-url>
-cd student-task-manager-wpf
+cd <repo-folder>
 dotnet build StudentTaskManager.sln
-dotnet run --project .\StudentTaskManager\StudentTaskManager.csproj
+dotnet run --project ./StudentTaskManager/StudentTaskManager.csproj
 ```
 
 Or open `StudentTaskManager.sln` in Visual Studio 2022 and run the project. The SQLite database file (`StudentTaskManager.db`) is created in the application output directory on first run.
