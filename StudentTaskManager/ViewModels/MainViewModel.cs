@@ -10,13 +10,6 @@ public class MainViewModel : ViewModelBase
     public string WelcomeMessage
     {
         get => _welcomeMessage;
-        set
-        {
-            if (_welcomeMessage != value)
-            {
-                _welcomeMessage = value;
-                OnPropertyChanged();
-            }
-        }
+        set => SetProperty(ref _welcomeMessage, value);
     }
 }
